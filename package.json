@@ -10,7 +10,7 @@
     "seed:prod": "node dist/seeders/role.seeder.js",
     "start": "node dist/index.js",
     "start:prod": "npm run seed:prod && npm start"
-  }
+  
   },
   "keywords": [],
   "author": "",
