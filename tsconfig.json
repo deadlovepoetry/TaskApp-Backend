@@ -2,13 +2,15 @@
   "compilerOptions": {
     /* Language and Environment */
     "target": "ES2021",
-    "lib": ["ES2021"],
+    "lib": ["ES2021", "DOM"],
 
     /* Modules */
     "module": "commonjs",
     "moduleResolution": "node",
     "rootDir": "./src",
     "resolveJsonModule": true,
+    "allowJs": true,
+    "types": ["node"],
 
     /* Emit */
     "outDir": "./dist",
@@ -23,8 +25,8 @@
 
     /* Type Checking */
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
