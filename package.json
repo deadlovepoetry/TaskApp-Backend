@@ -6,12 +6,16 @@
    "scripts": {
     "seed": "ts-node src/seeders/role.seeder.ts",
     "dev": "ts-node-dev --files src/index.ts",
-    "build": "npx tsc && cp package.json ./dist",
-    "seed:prod": "node dist/seeders/role.seeder.js",
-    "start": "node dist/index.js",
-    "start:prod": "npm run seed:prod && npm start"
-  
-  },
+     "start": "node dist/index.js",
+    "build": "tsc && cp package.json ./dist",
+    "ts.check": "tsc --project tconfig.json",
+        "add-build": "git add dist"
+    },
+    "pre-commit": [
+        "ts.check",
+        "build",
+        "add-build"
+    ],
   "keywords": [],
   "author": "",
   "license": "ISC",
