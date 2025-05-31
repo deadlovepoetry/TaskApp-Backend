@@ -13,12 +13,12 @@ export class AppError extends Error {
     super(message);
     this.statusCode = statusCode;
     this.errorCode = errorCode;
-    
-    // Fix for TypeScript error - check if captureStackTrace exists
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, this.constructor);
+
+    // Fix for TypeScript error - properly type check captureStackTrace
+    if ((Error as any).captureStackTrace) {
+      (Error as any).captureStackTrace(this, this.constructor);
     }
-    
+
     // Ensure the name of this error is the same as the class name
     this.name = this.constructor.name;
   }

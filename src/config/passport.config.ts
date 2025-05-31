@@ -1,7 +1,7 @@
 import passport from "passport";
 import { Request } from "express";
-import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import { Strategy as LocalStrategy } from "passport-local";
+import { Strategy as GoogleStrategy, Profile, VerifyCallback } from "passport-google-oauth20";
+import { Strategy as LocalStrategy, IVerifyOptions } from "passport-local";
 
 import { config } from "./app.config";
 import { NotFoundException } from "../utils/appError";
@@ -20,11 +20,18 @@ passport.use(
       scope: ["profile", "email"],
       passReqToCallback: true,
     },
-    async (req: Request, accessToken, refreshToken, profile, done) => {
+    async (
+      req: Request, 
+      accessToken: string, 
+      refreshToken: string, 
+      profile: Profile, 
+      done: VerifyCallback
+    ) => {
       try {
         const { email, sub: googleId, picture } = profile._json;
         console.log(profile, "profile");
         console.log(googleId, "googleId");
+        
         if (!googleId) {
           throw new NotFoundException("Google ID (sub) is missing");
         }
@@ -51,7 +58,11 @@ passport.use(
       passwordField: "password",
       session: true,
     },
-    async (email, password, done) => {
+    async (
+      email: string, 
+      password: string, 
+      done: (error: any, user?: any, options?: IVerifyOptions) => void
+    ) => {
       try {
         const user = await verifyUserService({ email, password });
         return done(null, user);
@@ -62,5 +73,10 @@ passport.use(
   )
 );
 
-passport.serializeUser((user: any, done) => done(null, user));
-passport.deserializeUser((user: any, done) => done(null, user));
+passport.serializeUser((user: any, done: (err: any, id?: any) => void) => 
+  done(null, user)
+);
+
+passport.deserializeUser((user: any, done: (err: any, user?: any) => void) => 
+  done(null, user)
+);
